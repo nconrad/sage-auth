@@ -1,0 +1,3 @@
+[submodule "app/webapp/ui-components"]	
+	path = app/webapp/ui-components
+	url = git@github.com:sagecontinuum/sage-gui.git

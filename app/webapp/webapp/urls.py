@@ -14,24 +14,23 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
 from . import views
 
-from django.conf.urls import url # for native login
 from django.contrib.auth import views as auth_views # for native login
 from django.conf.urls import url
 
 
 urlpatterns = [
     path('token_info/', views.TokenInfo.as_view()),
-    
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('', include('django.contrib.auth.urls')), #  enable the ‘Logout’ link
     path('', include('social_django.urls', namespace='social')), # ‘Login with Globus’ link and other URLs required by OpenID Connect protocol.
     path('token/', views.token),
-    url(r'^login/$', auth_views.LoginView.as_view(template_name="login.html"), name='login'), # for testing, Django-native login , https://simpleisbetterthancomplex.com/tutorial/2016/06/27/how-to-use-djangos-built-in-login-system.html
-    url(r'^logout/$', auth_views.LogoutView, name='logout'), # for testing, Django-native logout
-    url('', include('django_prometheus.urls')),
+    re_path(r'^login/$', auth_views.LoginView.as_view(template_name="login.html"), name='login'), # for testing, Django-native login , https://simpleisbetterthancomplex.com/tutorial/2016/06/27/how-to-use-djangos-built-in-login-system.html
+    re_path(r'^logout/$', auth_views.LogoutView, name='logout'), # for testing, Django-native logout
+    re_path('', include('django_prometheus.urls')),
+    re_path(r'^admin-ui/(.*)/?$', views.admin_ui) # everything under /admin-ui goes to react build (index.html)
 ]
 

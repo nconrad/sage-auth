@@ -61,6 +61,33 @@ def home(request):
                   'refresh_token': refresh_token})
 
 
+def admin_ui(request, path):
+    uuid = None
+    access_token = None
+    refresh_token = None
+    if request.user.is_authenticated:
+        try:
+            globus_user = request.user.social_auth.get(provider='globus')
+        except:
+            uuid = 'some uuid'
+
+            access_token = 'access_token'
+            refresh_token = 'refresh_token'
+        else:
+            uuid = globus_user.uid
+            social = request.user.social_auth
+            access_token = social.get(provider='globus').extra_data['access_token']
+            refresh_token = social.get(provider='globus').extra_data['refresh_token']
+
+    return render(
+        request,
+        'admin-ui.html',
+        {'uuid': uuid,
+        'access_token': access_token,
+        'refresh_token': refresh_token}
+    )
+
+
 
 def token(request):
 

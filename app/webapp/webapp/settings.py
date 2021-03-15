@@ -110,7 +110,7 @@ if USE_SQLITE3:
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
-else: 
+else:
     MYSQL_HOST = os.environ.get('MYSQL_HOST')
     if MYSQL_HOST is None:
         sys.exit("MYSQL_HOST is not defined")
@@ -187,5 +187,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "ui-components/dist")
+]
 
